@@ -49,6 +49,7 @@ Los datos se solicitan mediante ventanas de diálogo con validación de cada cam
 
 ## Documentación
 - [Contrato GUI](docs/CONTRATO_GUI.md): componentes, nombres y código de los eventos de la interfaz gráfica.
+- [Roles y forma de trabajo](docs/ROLES.md): reparto de tareas y guía para trabajar con ramas y Pull Requests.
 
 ## Integrantes
 - Santiago Castillo
