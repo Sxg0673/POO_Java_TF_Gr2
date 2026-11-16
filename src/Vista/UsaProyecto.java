@@ -40,13 +40,13 @@ public class UsaProyecto extends javax.swing.JFrame {
      * ======================== Métodos: registrar proyectos ========================
     */
 
-    //generarCodigoProyecto: conforma el código con el año actual, un guión y el consecutivo del año (3 dígitos), ej. 2026-001.
+    //generarCodigoProyecto: conforma el código con el anio actual, un guion y el consecutivo del anio (3 dígitos), ej. 2026-001.
     public String generarCodigoProyecto(ArrayList<Proyecto> datos){
         String codigo;
         int anioActual = LocalDate.now().getYear();
         int consecutivo = 1;
 
-        //Contar los proyectos registrados en el año actual
+        //Contar los proyectos registrados en el anio actual
         for(Proyecto objeto : datos){
             if(objeto.getCodigo().startsWith(anioActual + "-")){
                 consecutivo++;
@@ -339,6 +339,283 @@ public class UsaProyecto extends javax.swing.JFrame {
 
         //------ 4. Devolver la colección de proyectos
         return datos;
+    }
+
+    /*
+     * ======================== Métodos: consultar proyectos ========================
+    */
+
+    //consultarTodosProyectos: conforma una cadena con la información (atributos y fecha de finalización) de cada uno de los proyectos de la colección.
+    public String consultarTodosProyectos(ArrayList<Proyecto> datos){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar todos los proyectos\n";
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(Proyecto objeto : datos){
+           resultado += objeto.toString();
+           resultado += "\n     Fecha de finalizacion: " + objeto.determinarFechaFinalizacion();
+           resultado += "\n";
+        }
+        return resultado;
+    }
+
+    //consultarProyectosEnCurso: conforma una cadena con la información de cada uno de los proyectos de la colección con estado "EN CURSO".
+    public String consultarProyectosEnCurso(ArrayList<Proyecto> datos){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar proyectos en curso\n";
+        boolean encontrado = false;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(int i=0; i<datos.size();i++){
+            if(datos.get(i).getEstado().equals("EN CURSO")){
+               resultado += datos.get(i).toString();
+               resultado += "\n     Fecha de finalizacion: " + datos.get(i).determinarFechaFinalizacion();
+               resultado += "\n";
+               encontrado = true;
+            }
+        }
+        if(!encontrado){
+            resultado += "No hay proyectos en curso.";
+        }
+        return resultado;
+    }
+
+    //consultarPrimerProyecto: conforma una cadena con la información del primer proyecto de la colección.
+    public String consultarPrimerProyecto(ArrayList<Proyecto> datos){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar primer proyecto\n";
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada del primer elemento al resultado y devolverlo
+        Proyecto objeto = datos.getFirst();
+        resultado += objeto.toString();
+        resultado += "\n     Fecha de finalizacion: " + objeto.determinarFechaFinalizacion();
+        resultado += "\n";
+        return resultado;
+    }
+
+    //consultarUltimoProyecto: conforma una cadena con la información del último proyecto de la colección.
+    public String consultarUltimoProyecto(ArrayList<Proyecto> datos){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar ultimo proyecto\n";
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada del último elemento al resultado y devolverlo
+        Proyecto objeto = datos.getLast();
+        resultado += objeto.toString();
+        resultado += "\n     Fecha de finalizacion: " + objeto.determinarFechaFinalizacion();
+        resultado += "\n";
+        return resultado;
+    }
+
+    //consultarProyectoDadoCodigo: conforma una cadena con la información del proyecto de la colección que cumple con el código indicado.
+    public String consultarProyectoDadoCodigo(ArrayList<Proyecto> datos, String codigoProyecto){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar proyecto dado codigo\n";
+        boolean encontrado = false;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(int i=0; i<datos.size();i++){
+            if(datos.get(i).getCodigo().equals(codigoProyecto)){
+               resultado += datos.get(i).toString();
+               resultado += "\n     Fecha de finalizacion: " + datos.get(i).determinarFechaFinalizacion();
+               resultado += "\n";
+               encontrado = true;
+            }
+        }
+        if(!encontrado){
+            resultado += "No existe un proyecto con codigo " + codigoProyecto + ".";
+        }
+        return resultado;
+    }
+
+    //consultarGerenteProyectoDadoCodigo: conforma una cadena con el título y la información del gerente del proyecto que cumple con el código indicado.
+    public String consultarGerenteProyectoDadoCodigo(ArrayList<Proyecto> datos, String codigoProyecto){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar gerente de un proyecto dado codigo\n";
+        boolean encontrado = false;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(int i=0; i<datos.size();i++){
+            if(datos.get(i).getCodigo().equals(codigoProyecto)){
+               resultado += "Proyecto: " + datos.get(i).getCodigo() + " - " + datos.get(i).getTitulo() + "\n";
+               resultado += "Gerente - " + datos.get(i).getSuGerente().toString();
+               resultado += "\n";
+               encontrado = true;
+            }
+        }
+        if(!encontrado){
+            resultado += "No existe un proyecto con codigo " + codigoProyecto + ".";
+        }
+        return resultado;
+    }
+
+    //consultarEquipoProyectoDadoCodigo: conforma una cadena con el título y la información de cada integrante del equipo del proyecto que cumple con el código indicado.
+    public String consultarEquipoProyectoDadoCodigo(ArrayList<Proyecto> datos, String codigoProyecto){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar equipo de un proyecto dado codigo\n";
+        boolean encontrado = false;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(int i=0; i<datos.size();i++){
+            if(datos.get(i).getCodigo().equals(codigoProyecto)){
+               resultado += "Proyecto: " + datos.get(i).getCodigo() + " - " + datos.get(i).getTitulo() + "\n";
+               if(datos.get(i).getSuEquipo().isEmpty()){
+                   resultado += "El proyecto no tiene integrantes registrados en su equipo.";
+               }
+               for(Empleado integrante : datos.get(i).getSuEquipo()){
+                   resultado += "Integrante - " + integrante.toString();
+                   resultado += "\n";
+               }
+               encontrado = true;
+            }
+        }
+        if(!encontrado){
+            resultado += "No existe un proyecto con codigo " + codigoProyecto + ".";
+        }
+        return resultado;
+    }
+
+    //consultarProyectosDadoNumIDEGerente: conforma una cadena con la información de cada uno de los proyectos cuyo gerente cumple con el número de identificación indicado.
+    public String consultarProyectosDadoNumIDEGerente(ArrayList<Proyecto> datos, String numIDEGerente){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar proyectos dado numero de identificacion del gerente\n";
+        boolean encontrado = false;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(int i=0; i<datos.size();i++){
+            if(datos.get(i).getSuGerente().getNumeroIdentificacion().equals(numIDEGerente)){
+               resultado += datos.get(i).toString();
+               resultado += "\n     Fecha de finalizacion: " + datos.get(i).determinarFechaFinalizacion();
+               resultado += "\n";
+               encontrado = true;
+            }
+        }
+        if(!encontrado){
+            resultado += "No existen proyectos con gerente identificado con " + numIDEGerente + ".";
+        }
+        return resultado;
+    }
+
+    //consultarProyectosDadoNumIDECliente: conforma una cadena con la información de cada uno de los proyectos cuyo cliente cumple con el número de identificación indicado.
+    public String consultarProyectosDadoNumIDECliente(ArrayList<Proyecto> datos, String numIDECliente){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar proyectos dado numero de identificacion del cliente\n";
+        boolean encontrado = false;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(int i=0; i<datos.size();i++){
+            if(datos.get(i).getSuCliente().getNumeroIdentificacion().equals(numIDECliente)){
+               resultado += datos.get(i).toString();
+               resultado += "\n     Fecha de finalizacion: " + datos.get(i).determinarFechaFinalizacion();
+               resultado += "\n";
+               encontrado = true;
+            }
+        }
+        if(!encontrado){
+            resultado += "No existen proyectos con cliente identificado con " + numIDECliente + ".";
+        }
+        return resultado;
+    }
+
+    //consultarProyectosDadoTipoCliente: conforma una cadena con la información de cada uno de los proyectos cuyo cliente es del tipo indicado (Empresa, PersonaNatural).
+    public String consultarProyectosDadoTipoCliente(ArrayList<Proyecto> datos, String tipoCliente){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Consultar proyectos dado tipo de cliente\n";
+        boolean encontrado = false;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: agregar la información solicitada al resultado y devolverlo
+        for(int i=0; i<datos.size();i++){
+            if((tipoCliente.equals("Empresa") && datos.get(i).getSuCliente() instanceof Empresa)
+                    || (tipoCliente.equals("PersonaNatural") && datos.get(i).getSuCliente() instanceof PersonaNatural)){
+               resultado += datos.get(i).toString();
+               resultado += "\n     Fecha de finalizacion: " + datos.get(i).determinarFechaFinalizacion();
+               resultado += "\n";
+               encontrado = true;
+            }
+        }
+        if(!encontrado){
+            resultado += "No existen proyectos con cliente de tipo " + tipoCliente + ".";
+        }
+        return resultado;
     }
 
     /**
