@@ -12,7 +12,9 @@ Aplicativo en Java con interfaz gráfica para la gestión de proyectos: registro
    git clone https://github.com/Sxg0673/POO_Java_TF_Gr2.git
    ```
 2. En NetBeans: **File → Open Project** y seleccionar la carpeta `POO_Java_TF_Gr2`.
-3. Ejecutar con **Run Project** (F6).
+3. Ejecutar con **Run Project** (F6). La clase principal es `Vista.UsaProyecto`.
+
+Al iniciar, el aplicativo carga 4 proyectos de prueba para poder realizar consultas sin registrar datos.
 
 ## Estructura del proyecto
 ```
@@ -20,6 +22,7 @@ src/
 ├── Modelo/   clases del dominio
 └── Vista/    interfaz gráfica y funcionalidades del aplicativo
 test/         pruebas unitarias
+docs/         documentación del proyecto
 ```
 
 ### Paquete Modelo
@@ -33,7 +36,19 @@ test/         pruebas unitarias
 | `Proyecto` | Proyecto con su cliente, gerente, equipo y estado. Determina su fecha de finalización y permite agregar o eliminar integrantes del equipo. |
 
 ### Paquete Vista
-_En construcción._
+`UsaProyecto` es la ventana principal del aplicativo (JFrame). Contiene las colecciones de proyectos y clientes y las funcionalidades:
+
+| Grupo | Funcionalidades |
+|---|---|
+| Registro | Registrar un proyecto (el código se genera automáticamente: año y consecutivo anual, ej. 2026-001). |
+| Consultas | Todos los proyectos, proyectos en curso, primer y último proyecto, proyecto por código, gerente y equipo de un proyecto, proyectos por gerente, por cliente y por tipo de cliente. |
+| Equipo y estado | Registrar un integrante, registrar el equipo completo, eliminar un integrante y actualizar el estado de un proyecto. |
+| Archivos | Generar y leer archivos de objetos de proyectos (`datosProyectos.obj`) y de clientes (`datosClientes.obj`). |
+
+Los datos se solicitan mediante ventanas de diálogo con validación de cada campo; cualquier operación puede cancelarse sin afectar los datos registrados.
+
+## Documentación
+- [Contrato GUI](docs/CONTRATO_GUI.md): componentes, nombres y código de los eventos de la interfaz gráfica.
 
 ## Integrantes
 - Santiago Castillo
