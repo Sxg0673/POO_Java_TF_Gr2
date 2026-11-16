@@ -10,6 +10,12 @@ import Modelo.Empleado;
 import Modelo.Empresa;
 import Modelo.PersonaNatural;
 import Modelo.Proyecto;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -1112,6 +1118,148 @@ public class UsaProyecto extends javax.swing.JFrame {
             resultado += "Integrante - " + integranteEliminado.toString();
         }
         return resultado;
+    }
+
+    /*
+     * ======================== Métodos: gestión de archivos de objetos ========================
+    */
+
+    //generarArchivoDeObjetosProyectos: recorre la colección y guarda cada uno de los proyectos en el archivo "datosProyectos".
+    public void generarArchivoDeObjetosProyectos(ArrayList<Proyecto> datos){
+        String nombreArchivo = "datosProyectos.obj";
+        ObjectOutputStream salida = null;
+
+        //Manejo de la validación por restricción de lista vacía
+        if(datos.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Operación fallida, lista vacía. No hay proyectos registrados.", "GENERACIÓN DE ARCHIVO DE PROYECTOS", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try{
+            salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
+            for(Proyecto objeto : datos){
+                salida.writeObject(objeto);
+            }
+            JOptionPane.showMessageDialog(null, "Operación exitosa, archivo generado correctamente.\n"
+                                        + "Proyectos guardados: " + datos.size(), "GENERACIÓN DE ARCHIVO DE PROYECTOS", JOptionPane.INFORMATION_MESSAGE);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,"Operación fallida: error almacenando datos en archivo.\n "
+                                            + "Revisar serialización de clases.", "GENERACIÓN DE ARCHIVO DE PROYECTOS", JOptionPane.ERROR_MESSAGE);
+        } finally{
+            try{
+                if(salida != null){salida.close();}
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(null,"Operación fallida: error cerrando archivo.", "GENERACIÓN DE ARCHIVO DE PROYECTOS", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    //leerArchivoDeObjetosProyectos: recorre el archivo "datosProyectos" y guarda cada registro en la lista que devuelve.
+    public ArrayList<Proyecto> leerArchivoDeObjetosProyectos(){
+        String nombreArchivo = "datosProyectos.obj";
+        ObjectInputStream entrada = null;
+        ArrayList<Proyecto> datos = new ArrayList<>();
+        boolean finArchivo = false;
+
+        try{
+            entrada = new ObjectInputStream(new FileInputStream(nombreArchivo));
+            //Recorrer el archivo hasta su fin: al no haber más objetos se genera EOFException
+            while(!finArchivo){
+                try{
+                    datos.add((Proyecto) entrada.readObject());
+                } catch(EOFException ex){
+                    finArchivo = true;
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Operación exitosa, archivo leído correctamente.\n"
+                                        + "Proyectos recuperados: " + datos.size(), "LECTURA DE ARCHIVO DE PROYECTOS", JOptionPane.INFORMATION_MESSAGE);
+        } catch(FileNotFoundException ex){
+            JOptionPane.showMessageDialog(null,"Operación fallida: no existe el archivo " + nombreArchivo + ".\n"
+                                            + "Primero se debe generar el archivo de proyectos.", "LECTURA DE ARCHIVO DE PROYECTOS", JOptionPane.ERROR_MESSAGE);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,"Operación fallida: error recuperando datos desde archivo.", "LECTURA DE ARCHIVO DE PROYECTOS", JOptionPane.ERROR_MESSAGE);
+        } finally{
+            try{
+                if(entrada != null){entrada.close();}
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(null,"Operación fallida: error cerrando archivo.", "LECTURA DE ARCHIVO DE PROYECTOS", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return datos;
+    }
+
+    //generarArchivoDeObjetosClientes: recorre la colección de proyectos y guarda el cliente de cada uno de ellos en el archivo "datosClientes".
+    public void generarArchivoDeObjetosClientes(ArrayList<Proyecto> datos){
+        String nombreArchivo = "datosClientes.obj";
+        ObjectOutputStream salida = null;
+
+        //Manejo de la validación por restricción de lista vacía
+        if(datos.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Operación fallida, lista vacía. No hay proyectos registrados.", "GENERACIÓN DE ARCHIVO DE CLIENTES", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try{
+            salida = new ObjectOutputStream(new FileOutputStream(nombreArchivo));
+            for(Proyecto objeto : datos){
+                salida.writeObject(objeto.getSuCliente());
+            }
+            JOptionPane.showMessageDialog(null, "Operación exitosa, archivo generado correctamente.\n"
+                                        + "Clientes guardados (uno por proyecto): " + datos.size(), "GENERACIÓN DE ARCHIVO DE CLIENTES", JOptionPane.INFORMATION_MESSAGE);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,"Operación fallida: error almacenando datos en archivo.\n "
+                                            + "Revisar serialización de clases.", "GENERACIÓN DE ARCHIVO DE CLIENTES", JOptionPane.ERROR_MESSAGE);
+        } finally{
+            try{
+                if(salida != null){salida.close();}
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(null,"Operación fallida: error cerrando archivo.", "GENERACIÓN DE ARCHIVO DE CLIENTES", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    //leerArchivoDeObjetosClientes: recorre el archivo "datosClientes" y guarda cada registro en la lista que devuelve, verificando que no se repita.
+    public ArrayList<Cliente> leerArchivoDeObjetosClientes(){
+        String nombreArchivo = "datosClientes.obj";
+        ObjectInputStream entrada = null;
+        ArrayList<Cliente> datos = new ArrayList<>();
+        boolean finArchivo = false;
+
+        try{
+            entrada = new ObjectInputStream(new FileInputStream(nombreArchivo));
+            //Recorrer el archivo hasta su fin: al no haber más objetos se genera EOFException
+            while(!finArchivo){
+                try{
+                    Cliente objCliente = (Cliente) entrada.readObject();
+                    //Verificar que el cliente no se encuentre ya en la lista
+                    boolean repetido = false;
+                    for(Cliente objeto : datos){
+                        if(objeto.getNumeroIdentificacion().equals(objCliente.getNumeroIdentificacion())){
+                            repetido = true;
+                        }
+                    }
+                    if(!repetido){
+                        datos.add(objCliente);
+                    }
+                } catch(EOFException ex){
+                    finArchivo = true;
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Operación exitosa, archivo leído correctamente.\n"
+                                        + "Clientes recuperados (sin repetir): " + datos.size(), "LECTURA DE ARCHIVO DE CLIENTES", JOptionPane.INFORMATION_MESSAGE);
+        } catch(FileNotFoundException ex){
+            JOptionPane.showMessageDialog(null,"Operación fallida: no existe el archivo " + nombreArchivo + ".\n"
+                                            + "Primero se debe generar el archivo de clientes.", "LECTURA DE ARCHIVO DE CLIENTES", JOptionPane.ERROR_MESSAGE);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null,"Operación fallida: error recuperando datos desde archivo.", "LECTURA DE ARCHIVO DE CLIENTES", JOptionPane.ERROR_MESSAGE);
+        } finally{
+            try{
+                if(entrada != null){entrada.close();}
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(null,"Operación fallida: error cerrando archivo.", "LECTURA DE ARCHIVO DE CLIENTES", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return datos;
     }
 
     /**
