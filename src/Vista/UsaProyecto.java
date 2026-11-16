@@ -40,6 +40,52 @@ public class UsaProyecto extends javax.swing.JFrame {
      */
     public UsaProyecto() {
         initComponents();
+
+        /*
+         * Invocaciones iniciales: cargar datos de prueba (solo si la colección de proyectos está vacía)
+        */
+        if(losProyectos.isEmpty()){
+            //Clientes
+            Contacto objContacto1 = new Contacto("Ana Maria Paz", "Gerente comercial", "3001234567", "ana.paz@solucionesvalle.com");
+            Contacto objContacto2 = new Contacto("Jorge Ivan Mora", "Director administrativo", "3157654321", "jorge.mora@constructorapacifico.com");
+            Cliente objCliente1 = new Empresa("900123456", "Soluciones del Valle SAS", "Cali", objContacto1);
+            Cliente objCliente2 = new Empresa("800765432", "Constructora Pacifico Ltda", "Buenaventura", objContacto2);
+            Cliente objCliente3 = new PersonaNatural("31456789", "Laura Gomez Salazar", "Palmira", "3109876543", "laura.gomez@correo.com");
+
+            //Empleados (gerentes e integrantes)
+            Empleado objGerente1 = new Empleado("1107123456", "Carlos Andres Ruiz", "Ingeniero de sistemas", (byte)8);
+            Empleado objGerente2 = new Empleado("66778899", "Diana Marcela Rios", "Administradora de empresas", (byte)12);
+            Empleado objEmpleado1 = new Empleado("1144556677", "Maria Fernanda Lopez", "Disenadora grafica", (byte)3);
+            Empleado objEmpleado2 = new Empleado("1130987654", "Pedro Antonio Perez", "Ingeniero industrial", (byte)5);
+            Empleado objEmpleado3 = new Empleado("1061234567", "Sofia Valencia Arango", "Ingeniera de software", (byte)2);
+            Empleado objEmpleado4 = new Empleado("94321456", "Andres Felipe Castano", "Contador publico", (byte)10);
+
+            //Proyecto 1: con equipo (constructor con equipo), finalizado
+            ArrayList<Empleado> equipo1 = new ArrayList<>();
+            equipo1.add(objEmpleado1);
+            equipo1.add(objEmpleado2);
+            Proyecto objProyecto1 = new Proyecto("2025-001", "Implementacion de sistema de facturacion", LocalDate.parse("2025-01-20"), "anios", (byte)1, objCliente1, objGerente1, equipo1);
+            objProyecto1.setEstado("FINALIZADO");
+            losProyectos.add(objProyecto1);
+
+            //Proyecto 2: sin equipo inicial (constructor sin equipo), se agrega un integrante, en curso
+            Proyecto objProyecto2 = new Proyecto("2026-001", "Sistema de inventarios para bodega", LocalDate.parse("2026-02-15"), "meses", (byte)3, objCliente1, objGerente1);
+            objProyecto2.agregarIntegrante(objEmpleado3);
+            objProyecto2.setEstado("EN CURSO");
+            losProyectos.add(objProyecto2);
+
+            //Proyecto 3: sin equipo, estado por defecto (INICIADO)
+            Proyecto objProyecto3 = new Proyecto("2026-002", "Portal web de atencion al ciudadano", LocalDate.parse("2026-03-01"), "semanas", (byte)2, objCliente3, objGerente2);
+            losProyectos.add(objProyecto3);
+
+            //Proyecto 4: con equipo, suspendido
+            ArrayList<Empleado> equipo4 = new ArrayList<>();
+            equipo4.add(objEmpleado4);
+            equipo4.add(objEmpleado2);
+            Proyecto objProyecto4 = new Proyecto("2026-003", "Migracion de plataforma contable", LocalDate.parse("2026-01-10"), "meses", (byte)13, objCliente2, objGerente2, equipo4);
+            objProyecto4.setEstado("SUSPENDIDO");
+            losProyectos.add(objProyecto4);
+        }
     }
 
     /*
