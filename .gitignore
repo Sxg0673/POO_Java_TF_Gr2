@@ -1,0 +1,10 @@
+# NetBeans (Ant)
+/build/
+/dist/
+/nbproject/private/
+
+# Archivos de objetos generados al ejecutar el aplicativo
+*.obj
+
+# macOS
+.DS_Store
