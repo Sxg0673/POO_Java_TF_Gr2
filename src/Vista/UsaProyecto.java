@@ -696,6 +696,424 @@ public class UsaProyecto extends javax.swing.JFrame {
         return resultado;
     }
 
+    /*
+     * ======================== Métodos: gestionar equipo y estado de proyectos ========================
+    */
+
+    //registrarIntegranteProyectoDadoCodigo: solicita los datos de un integrante (empleado) y lo agrega al equipo del proyecto que cumple con el código indicado.
+    public String registrarIntegranteProyectoDadoCodigo(ArrayList<Proyecto> datos, String codigoProyecto){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Registrar integrante de un proyecto dado codigo\n";
+        Proyecto objProyecto = null;
+        String numeroIdeIntegrante;
+        Empleado objIntegrante = null;
+        boolean repetido;
+        String entrada;//texto digitado en la ventana, se verifica que no se haya cancelado antes de convertirlo
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: buscar el proyecto que cumple con el código indicado
+        for(Proyecto objeto : datos){
+            if(objeto.getCodigo().equals(codigoProyecto)){
+                objProyecto = objeto;
+            }
+        }
+        if(objProyecto == null){
+            resultado += "No existe un proyecto con codigo " + codigoProyecto + ".";
+            return resultado;
+        }
+
+        //----- 3. Obtener los datos del integrante (empleado)
+
+            //Validación por obligatoriedad y por integrante repetido en el equipo
+        do{
+            numeroIdeIntegrante = JOptionPane.showInputDialog("Número de identificación del integrante, obligatorio");
+            if(numeroIdeIntegrante == null){
+                resultado += "Operacion cancelada por el usuario.";
+                return resultado;
+            }
+            repetido = false;
+            for(Empleado integrante : objProyecto.getSuEquipo()){
+                if(integrante.getNumeroIdentificacion().equals(numeroIdeIntegrante)){
+                    repetido = true;
+                }
+            }
+            if(numeroIdeIntegrante.isEmpty() || numeroIdeIntegrante.isBlank()){
+                JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR INTEGRANTE: número identificación", JOptionPane.ERROR_MESSAGE);
+            } else if(repetido){
+                JOptionPane.showMessageDialog(null, "Entrada inválida: el empleado ya es integrante del equipo del proyecto.\n",  "REGISTRAR INTEGRANTE: número identificación", JOptionPane.ERROR_MESSAGE);
+            }
+        } while(numeroIdeIntegrante.isEmpty() || numeroIdeIntegrante.isBlank() || repetido);
+
+            //Buscar el empleado en los gerentes y equipos de los proyectos registrados para no solicitar nuevamente sus datos
+        for(Proyecto objeto : datos){
+            if(objeto.getSuGerente().getNumeroIdentificacion().equals(numeroIdeIntegrante)){
+                objIntegrante = objeto.getSuGerente();
+            }
+            for(Empleado integrante : objeto.getSuEquipo()){
+                if(integrante.getNumeroIdentificacion().equals(numeroIdeIntegrante)){
+                    objIntegrante = integrante;
+                }
+            }
+        }
+
+        if(objIntegrante != null){
+            JOptionPane.showMessageDialog(null, "El empleado ya se encuentra registrado, se asigna como integrante del proyecto.\n" + objIntegrante.toString(),
+                                        "REGISTRAR INTEGRANTE", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+            String nombreIntegrante;
+            String tituloIntegrante;
+            byte aniosIntegrante;
+
+                //Validación por obligatoriedad
+            do{
+                nombreIntegrante = JOptionPane.showInputDialog("Nombre completo del integrante, obligatorio");
+                if(nombreIntegrante == null){
+                    resultado += "Operacion cancelada por el usuario.";
+                    return resultado;
+                }
+                if(nombreIntegrante.isEmpty() || nombreIntegrante.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR INTEGRANTE: nombre", JOptionPane.ERROR_MESSAGE);
+                }
+            } while(nombreIntegrante.isEmpty() || nombreIntegrante.isBlank());
+
+                //Validación por obligatoriedad
+            do{
+                tituloIntegrante = JOptionPane.showInputDialog("Título profesional del integrante, obligatorio");
+                if(tituloIntegrante == null){
+                    resultado += "Operacion cancelada por el usuario.";
+                    return resultado;
+                }
+                if(tituloIntegrante.isEmpty() || tituloIntegrante.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR INTEGRANTE: título profesional", JOptionPane.ERROR_MESSAGE);
+                }
+            } while(tituloIntegrante.isEmpty() || tituloIntegrante.isBlank());
+
+                //Gestión de excepción de formato numérico y Validación para restricción de dominio
+            try{
+                do{
+                    entrada = JOptionPane.showInputDialog("Anios de experiencia del integrante, valor entero desde 0");
+                    if(entrada == null){
+                        resultado += "Operacion cancelada por el usuario.";
+                        return resultado;
+                    }
+                    aniosIntegrante = Byte.parseByte(entrada);
+                    if(aniosIntegrante<0){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                                "REGISTRAR INTEGRANTE: anios de experiencia", JOptionPane.ERROR_MESSAGE);}
+                } while(aniosIntegrante<0);
+            } catch(NumberFormatException nfex){
+                JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                            + nfex.getMessage(), "REGISTRAR INTEGRANTE: anios de experiencia", JOptionPane.ERROR_MESSAGE);
+                resultado += "Operacion fallida: integrante no registrado.";
+                return resultado;
+            }
+
+            objIntegrante = new Empleado(numeroIdeIntegrante,nombreIntegrante,tituloIntegrante,aniosIntegrante);
+        }
+
+        //----- 4. Agregar el integrante al equipo del proyecto y devolver el resultado
+        objProyecto.agregarIntegrante(objIntegrante);
+        resultado += "Operacion exitosa, integrante registrado en el proyecto " + codigoProyecto + ".\n";
+        resultado += "Integrante - " + objIntegrante.toString();
+        return resultado;
+    }
+
+    //registrarEquipoProyectoDadoCodigo: solicita la cantidad y los datos de los integrantes y actualiza el equipo del proyecto que cumple con el código indicado.
+    public String registrarEquipoProyectoDadoCodigo(ArrayList<Proyecto> datos, String codigoProyecto){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Registrar equipo de un proyecto dado codigo\n";
+        Proyecto objProyecto = null;
+        int cantidadIntegrantes;
+        ArrayList<Empleado> equipoNuevo = new ArrayList<>();
+        String entrada;//texto digitado en la ventana, se verifica que no se haya cancelado antes de convertirlo
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: buscar el proyecto que cumple con el código indicado
+        for(Proyecto objeto : datos){
+            if(objeto.getCodigo().equals(codigoProyecto)){
+                objProyecto = objeto;
+            }
+        }
+        if(objProyecto == null){
+            resultado += "No existe un proyecto con codigo " + codigoProyecto + ".";
+            return resultado;
+        }
+        if(!objProyecto.getSuEquipo().isEmpty()){
+            JOptionPane.showMessageDialog(null, "El proyecto ya tiene " + objProyecto.getSuEquipo().size() + " integrantes.\n"
+                                        + "El equipo que se registre reemplazará el equipo actual.", "REGISTRAR EQUIPO", JOptionPane.WARNING_MESSAGE);
+        }
+
+        //----- 3. Solicitar la cantidad de integrantes a registrar
+
+            //Gestión de excepción de formato numérico y Validación para restricción de dominio
+        try{
+            do{
+                entrada = JOptionPane.showInputDialog("Cantidad de integrantes del equipo, valor entero desde 1");
+                if(entrada == null){
+                    resultado += "Operacion cancelada por el usuario.";
+                    return resultado;
+                }
+                cantidadIntegrantes = Integer.parseInt(entrada);
+                if(cantidadIntegrantes<1){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                            "REGISTRAR EQUIPO: cantidad de integrantes", JOptionPane.ERROR_MESSAGE);}
+            } while(cantidadIntegrantes<1);
+        } catch(NumberFormatException nfex){
+            JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                        + nfex.getMessage(), "REGISTRAR EQUIPO: cantidad de integrantes", JOptionPane.ERROR_MESSAGE);
+            resultado += "Operacion fallida: equipo no registrado.";
+            return resultado;
+        }
+
+        //----- 4. Ciclo para llenar la lista de integrantes (equipo)
+        for(int i=1; i<=cantidadIntegrantes; i++){
+            String numeroIdeIntegrante;
+            Empleado objIntegrante = null;
+            boolean repetido;
+
+                //Validación por obligatoriedad y por integrante repetido en el equipo nuevo
+            do{
+                numeroIdeIntegrante = JOptionPane.showInputDialog("Integrante " + i + " de " + cantidadIntegrantes + "\n"
+                                                                + "Número de identificación del integrante, obligatorio");
+                if(numeroIdeIntegrante == null){
+                    resultado += "Operacion cancelada por el usuario.";
+                    return resultado;
+                }
+                repetido = false;
+                for(Empleado integrante : equipoNuevo){
+                    if(integrante.getNumeroIdentificacion().equals(numeroIdeIntegrante)){
+                        repetido = true;
+                    }
+                }
+                if(numeroIdeIntegrante.isEmpty() || numeroIdeIntegrante.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR EQUIPO: número identificación", JOptionPane.ERROR_MESSAGE);
+                } else if(repetido){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: el empleado ya fue agregado al equipo.\n",  "REGISTRAR EQUIPO: número identificación", JOptionPane.ERROR_MESSAGE);
+                }
+            } while(numeroIdeIntegrante.isEmpty() || numeroIdeIntegrante.isBlank() || repetido);
+
+                //Buscar el empleado en los gerentes y equipos de los proyectos registrados para no solicitar nuevamente sus datos
+            for(Proyecto objeto : datos){
+                if(objeto.getSuGerente().getNumeroIdentificacion().equals(numeroIdeIntegrante)){
+                    objIntegrante = objeto.getSuGerente();
+                }
+                for(Empleado integrante : objeto.getSuEquipo()){
+                    if(integrante.getNumeroIdentificacion().equals(numeroIdeIntegrante)){
+                        objIntegrante = integrante;
+                    }
+                }
+            }
+
+            if(objIntegrante != null){
+                JOptionPane.showMessageDialog(null, "El empleado ya se encuentra registrado, se asigna como integrante del equipo.\n" + objIntegrante.toString(),
+                                            "REGISTRAR EQUIPO", JOptionPane.INFORMATION_MESSAGE);
+            } else{
+                String nombreIntegrante;
+                String tituloIntegrante;
+                byte aniosIntegrante;
+
+                    //Validación por obligatoriedad
+                do{
+                    nombreIntegrante = JOptionPane.showInputDialog("Integrante " + i + " de " + cantidadIntegrantes + "\n"
+                                                                + "Nombre completo del integrante, obligatorio");
+                    if(nombreIntegrante == null){
+                        resultado += "Operacion cancelada por el usuario.";
+                        return resultado;
+                    }
+                    if(nombreIntegrante.isEmpty() || nombreIntegrante.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR EQUIPO: nombre", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(nombreIntegrante.isEmpty() || nombreIntegrante.isBlank());
+
+                    //Validación por obligatoriedad
+                do{
+                    tituloIntegrante = JOptionPane.showInputDialog("Integrante " + i + " de " + cantidadIntegrantes + "\n"
+                                                                + "Título profesional del integrante, obligatorio");
+                    if(tituloIntegrante == null){
+                        resultado += "Operacion cancelada por el usuario.";
+                        return resultado;
+                    }
+                    if(tituloIntegrante.isEmpty() || tituloIntegrante.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR EQUIPO: título profesional", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(tituloIntegrante.isEmpty() || tituloIntegrante.isBlank());
+
+                    //Gestión de excepción de formato numérico y Validación para restricción de dominio
+                try{
+                    do{
+                        entrada = JOptionPane.showInputDialog("Integrante " + i + " de " + cantidadIntegrantes + "\n"
+                                                            + "Anios de experiencia del integrante, valor entero desde 0");
+                        if(entrada == null){
+                            resultado += "Operacion cancelada por el usuario.";
+                            return resultado;
+                        }
+                        aniosIntegrante = Byte.parseByte(entrada);
+                        if(aniosIntegrante<0){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                                    "REGISTRAR EQUIPO: anios de experiencia", JOptionPane.ERROR_MESSAGE);}
+                    } while(aniosIntegrante<0);
+                } catch(NumberFormatException nfex){
+                    JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                                + nfex.getMessage(), "REGISTRAR EQUIPO: anios de experiencia", JOptionPane.ERROR_MESSAGE);
+                    resultado += "Operacion fallida: equipo no registrado.";
+                    return resultado;
+                }
+
+                objIntegrante = new Empleado(numeroIdeIntegrante,nombreIntegrante,tituloIntegrante,aniosIntegrante);
+            }
+
+            //Actualizar la lista de integrantes
+            equipoNuevo.add(objIntegrante);
+        }
+
+        //----- 5. Actualizar el equipo del proyecto y devolver el resultado
+        objProyecto.setSuEquipo(equipoNuevo);
+        resultado += "Operacion exitosa, equipo registrado en el proyecto " + codigoProyecto + " con " + equipoNuevo.size() + " integrantes.\n";
+        for(Empleado integrante : equipoNuevo){
+            resultado += "Integrante - " + integrante.toString();
+            resultado += "\n";
+        }
+        return resultado;
+    }
+
+    //actualizarEstadoProyectoDadoCodigo: solicita el nuevo estado y lo actualiza en el proyecto que cumple con el código indicado.
+    public String actualizarEstadoProyectoDadoCodigo(ArrayList<Proyecto> datos, String codigoProyecto){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Actualizar estado de un proyecto dado codigo\n";
+        Proyecto objProyecto = null;
+        int opcionEstado;
+        String estadoAnterior;
+        String estadoNuevo;
+        String entrada;//texto digitado en la ventana, se verifica que no se haya cancelado antes de convertirlo
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: buscar el proyecto que cumple con el código indicado
+        for(Proyecto objeto : datos){
+            if(objeto.getCodigo().equals(codigoProyecto)){
+                objProyecto = objeto;
+            }
+        }
+        if(objProyecto == null){
+            resultado += "No existe un proyecto con codigo " + codigoProyecto + ".";
+            return resultado;
+        }
+
+        //----- 3. Solicitar el nuevo estado
+
+            //Gestión de excepción de formato numérico y Validación para restricción de dominio
+        try{
+            do{
+                entrada = JOptionPane.showInputDialog("Estado actual del proyecto " + codigoProyecto + ": " + objProyecto.getEstado() + "\n"
+                                                    + "\nNuevo estado\n"
+                                                    + "1. INICIADO\n"
+                                                    + "2. EN CURSO\n"
+                                                    + "3. CANCELADO\n"
+                                                    + "4. FINALIZADO\n"
+                                                    + "5. SUSPENDIDO\n"
+                                                    + "6. APLAZADO\n"
+                                                    + "\nSeleccione la opción deseada\n");
+                if(entrada == null){
+                    resultado += "Operacion cancelada por el usuario.";
+                    return resultado;
+                }
+                opcionEstado = Integer.parseInt(entrada);
+                if(opcionEstado<1 || opcionEstado>6){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                            "ACTUALIZAR ESTADO: estado", JOptionPane.ERROR_MESSAGE);}
+            } while(opcionEstado<1 || opcionEstado>6);
+        } catch(NumberFormatException nfex){
+            JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                        + nfex.getMessage(), "ACTUALIZAR ESTADO: estado", JOptionPane.ERROR_MESSAGE);
+            resultado += "Operacion fallida: estado no actualizado.";
+            return resultado;
+        }
+        if(opcionEstado==1){estadoNuevo = "INICIADO";}
+        else if(opcionEstado==2){estadoNuevo = "EN CURSO";}
+        else if(opcionEstado==3){estadoNuevo = "CANCELADO";}
+        else if(opcionEstado==4){estadoNuevo = "FINALIZADO";}
+        else if(opcionEstado==5){estadoNuevo = "SUSPENDIDO";}
+        else{estadoNuevo = "APLAZADO";}
+
+        //----- 4. Actualizar el estado del proyecto y devolver el resultado
+        estadoAnterior = objProyecto.getEstado();
+        objProyecto.setEstado(estadoNuevo);
+        resultado += "Operacion exitosa, estado del proyecto " + codigoProyecto + " actualizado de " + estadoAnterior + " a " + estadoNuevo + ".";
+        return resultado;
+    }
+
+    //eliminarIntegranteProyectoDadoCodigo: solicita el número de identificación de un integrante y lo elimina del equipo del proyecto que cumple con el código indicado.
+    public String eliminarIntegranteProyectoDadoCodigo(ArrayList<Proyecto> datos, String codigoProyecto){
+        //----- 1. Definir e inicializar la cadena a devolver
+        String resultado = "Eliminar integrante de un proyecto dado codigo\n";
+        Proyecto objProyecto = null;
+        String numeroIdeIntegrante;
+        Empleado integranteEliminado;
+
+        //----- 2. Manejo de la validación por restricción de lista vacía
+
+        //2a. Si la lista está vacía: agregar mensaje indicando la situación al resultado y devolverlo
+        if(datos.isEmpty()){
+            resultado += "No hay proyectos registrados.";
+            return resultado;
+        }
+
+        //2b. Si la lista está llena: buscar el proyecto que cumple con el código indicado
+        for(Proyecto objeto : datos){
+            if(objeto.getCodigo().equals(codigoProyecto)){
+                objProyecto = objeto;
+            }
+        }
+        if(objProyecto == null){
+            resultado += "No existe un proyecto con codigo " + codigoProyecto + ".";
+            return resultado;
+        }
+        if(objProyecto.getSuEquipo().isEmpty()){
+            resultado += "El proyecto no tiene integrantes registrados en su equipo.";
+            return resultado;
+        }
+
+        //----- 3. Solicitar el número de identificación del integrante
+
+            //Validación por obligatoriedad
+        do{
+            numeroIdeIntegrante = JOptionPane.showInputDialog("Número de identificación del integrante a eliminar, obligatorio");
+            if(numeroIdeIntegrante == null){
+                resultado += "Operacion cancelada por el usuario.";
+                return resultado;
+            }
+            if(numeroIdeIntegrante.isEmpty() || numeroIdeIntegrante.isBlank()){
+                JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "ELIMINAR INTEGRANTE: número identificación", JOptionPane.ERROR_MESSAGE);
+            }
+        } while(numeroIdeIntegrante.isEmpty() || numeroIdeIntegrante.isBlank());
+
+        //----- 4. Eliminar el integrante del equipo del proyecto y devolver el resultado
+        integranteEliminado = objProyecto.eliminarIntegrante(numeroIdeIntegrante);
+        if(integranteEliminado == null){
+            resultado += "No existe un integrante con numero de identificacion " + numeroIdeIntegrante + " en el equipo del proyecto " + codigoProyecto + ".";
+        } else{
+            resultado += "Operacion exitosa, integrante eliminado del proyecto " + codigoProyecto + ".\n";
+            resultado += "Integrante - " + integranteEliminado.toString();
+        }
+        return resultado;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
