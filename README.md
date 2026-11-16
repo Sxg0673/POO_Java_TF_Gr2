@@ -22,5 +22,18 @@ src/
 test/         pruebas unitarias
 ```
 
+### Paquete Modelo
+| Clase | Descripción |
+|---|---|
+| `Cliente` | Clase abstracta con los datos comunes de un cliente: número de identificación, nombre y ciudad. |
+| `Empresa` | Cliente de tipo empresa; tiene un contacto. |
+| `PersonaNatural` | Cliente de tipo persona natural; tiene teléfono y correo electrónico. |
+| `Contacto` | Persona de contacto de una empresa. |
+| `Empleado` | Empleado que puede ser gerente o integrante del equipo de un proyecto. |
+| `Proyecto` | Proyecto con su cliente, gerente, equipo y estado. Determina su fecha de finalización y permite agregar o eliminar integrantes del equipo. |
+
+### Paquete Vista
+_En construcción._
+
 ## Integrantes
 - Santiago Castillo
