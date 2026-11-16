@@ -4,12 +4,29 @@
  */
 package Vista;
 
+import Modelo.Cliente;
+import Modelo.Contacto;
+import Modelo.Empleado;
+import Modelo.Empresa;
+import Modelo.PersonaNatural;
+import Modelo.Proyecto;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author santiago
+ * @author Santiago Castillo
+ * @version 1.0 Created: 16 nov. 2026
  */
 public class UsaProyecto extends javax.swing.JFrame {
-    
+    /*
+     * Definir y crear las colecciones "ArrayList"
+    */
+    private static ArrayList<Proyecto> losProyectos = new ArrayList<>();
+    private static ArrayList<Cliente> losClientes = new ArrayList<>();
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UsaProyecto.class.getName());
 
     /**
@@ -17,6 +34,311 @@ public class UsaProyecto extends javax.swing.JFrame {
      */
     public UsaProyecto() {
         initComponents();
+    }
+
+    /*
+     * ======================== Métodos: registrar proyectos ========================
+    */
+
+    //generarCodigoProyecto: conforma el código con el año actual, un guión y el consecutivo del año (3 dígitos), ej. 2026-001.
+    public String generarCodigoProyecto(ArrayList<Proyecto> datos){
+        String codigo;
+        int anioActual = LocalDate.now().getYear();
+        int consecutivo = 1;
+
+        //Contar los proyectos registrados en el año actual
+        for(Proyecto objeto : datos){
+            if(objeto.getCodigo().startsWith(anioActual + "-")){
+                consecutivo++;
+            }
+        }
+
+        //Conformar el código completando con ceros el consecutivo
+        if(consecutivo<10){codigo = anioActual + "-00" + consecutivo;}
+        else if(consecutivo<100){codigo = anioActual + "-0" + consecutivo;}
+        else{codigo = anioActual + "-" + consecutivo;}
+        return codigo;
+    }
+
+    //registrarProyecto: solicita los datos de un proyecto, crea el objeto, lo agrega al final de la colección y la devuelve.
+    public ArrayList<Proyecto> registrarProyecto(ArrayList<Proyecto> datos){
+        //----- 1. Obtener los datos del objeto Proyecto
+        String codigo;
+        String titulo;
+        LocalDate fechaInicio;
+        int opcionUnidad;
+        String unidadDuracion;
+        byte duracionEstimada;
+        boolean duracionValida;
+        String numeroIdeCliente;
+        Cliente objCliente = null;
+        String numeroIdeGerente;
+        Empleado objGerente = null;
+
+            //Generación del código del proyecto
+        codigo = generarCodigoProyecto(datos);
+        JOptionPane.showMessageDialog(null, "Código asignado al proyecto: " + codigo, "REGISTRAR PROYECTO: código", JOptionPane.INFORMATION_MESSAGE);
+
+            //Validación por obligatoriedad y longitud
+        do{
+            titulo = JOptionPane.showInputDialog("Título del proyecto, obligatorio, entre 20 y 100 caracteres");
+            if(titulo.isEmpty() || titulo.isBlank() || titulo.length()<20 || titulo.length()>100){
+                JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío o no cumple la longitud exigida.\n",
+                                            "REGISTRAR PROYECTO: título", JOptionPane.ERROR_MESSAGE);
+            }
+        } while(titulo.isEmpty() || titulo.isBlank() || titulo.length()<20 || titulo.length()>100);
+
+            //Gestión de excepción de formato de fecha
+        try{
+            fechaInicio = LocalDate.parse(JOptionPane.showInputDialog("Fecha de inicio (aaaa-mm-dd)"));
+        } catch(DateTimeException nfex){
+            JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                        + nfex.toString(), "REGISTRAR PROYECTO: fecha de inicio", JOptionPane.ERROR_MESSAGE);
+            return datos;
+        }
+
+            //Gestión de excepción de formato numérico y Validación para restricción de dominio
+        try{
+            do{
+                opcionUnidad = Integer.parseInt(JOptionPane.showInputDialog("Unidad de duración\n"
+                                                                        + "1. Semanas\n"
+                                                                        + "2. Meses\n"
+                                                                        + "3. Anios\n"
+                                                                        + "\nSeleccione la opción deseada\n"));
+                if(opcionUnidad<1 || opcionUnidad>3){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                            "REGISTRAR PROYECTO: unidad de duración", JOptionPane.ERROR_MESSAGE);}
+            } while(opcionUnidad<1 || opcionUnidad>3);
+        } catch(NumberFormatException nfex){
+            JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                        + nfex.getMessage(), "REGISTRAR PROYECTO: unidad de duración", JOptionPane.ERROR_MESSAGE);
+            return datos;
+        }
+        if(opcionUnidad==1){unidadDuracion = "semanas";}
+        else if(opcionUnidad==2){unidadDuracion = "meses";}
+        else{unidadDuracion = "anios";}
+
+            //Gestión de excepción de formato numérico y Validación para restricción de dominio
+            //semanas: 1 a 3; meses: 1 a 11, 13 a 23, 25 a 35; anios: 1 a 3
+        try{
+            do{
+                duracionEstimada = Byte.parseByte(JOptionPane.showInputDialog("Duración estimada en " + unidadDuracion + "\n"
+                                                                        + "(semanas: 1 a 3; meses: 1 a 11, 13 a 23, 25 a 35; anios: 1 a 3)"));
+                if(unidadDuracion.equals("meses")){
+                    duracionValida = duracionEstimada>=1 && duracionEstimada<=35 && duracionEstimada!=12 && duracionEstimada!=24;
+                } else{
+                    duracionValida = duracionEstimada>=1 && duracionEstimada<=3;
+                }
+                if(!duracionValida){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                            "REGISTRAR PROYECTO: duración estimada", JOptionPane.ERROR_MESSAGE);}
+            } while(!duracionValida);
+        } catch(NumberFormatException nfex){
+            JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                        + nfex.getMessage(), "REGISTRAR PROYECTO: duración estimada", JOptionPane.ERROR_MESSAGE);
+            return datos;
+        }
+
+        //----- 1a. Obtener el cliente del proyecto
+
+            //Validación por obligatoriedad
+        do{
+            numeroIdeCliente = JOptionPane.showInputDialog("Número de identificación del cliente, obligatorio");
+            if(numeroIdeCliente.isEmpty() || numeroIdeCliente.isBlank()){
+                JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: número identificación cliente", JOptionPane.ERROR_MESSAGE);
+            }
+        } while(numeroIdeCliente.isEmpty() || numeroIdeCliente.isBlank());
+
+            //Buscar el cliente en los proyectos registrados para no solicitar nuevamente sus datos
+        for(Proyecto objeto : datos){
+            if(objeto.getSuCliente().getNumeroIdentificacion().equals(numeroIdeCliente)){
+                objCliente = objeto.getSuCliente();
+            }
+        }
+
+        if(objCliente != null){
+            JOptionPane.showMessageDialog(null, "El cliente ya se encuentra registrado, se asigna al proyecto.\n" + objCliente.toString(),
+                                        "REGISTRAR PROYECTO: cliente", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+            int opcionTipoCliente;
+            String nombreCliente;
+            String nombreCiudad;
+
+                //Gestión de excepción de formato numérico y Validación para restricción de dominio
+            try{
+                do{
+                    opcionTipoCliente = Integer.parseInt(JOptionPane.showInputDialog("Tipo de cliente\n"
+                                                                            + "1. Empresa\n"
+                                                                            + "2. Persona natural\n"
+                                                                            + "\nSeleccione la opción deseada\n"));
+                    if(opcionTipoCliente<1 || opcionTipoCliente>2){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                                "REGISTRAR PROYECTO: tipo de cliente", JOptionPane.ERROR_MESSAGE);}
+                } while(opcionTipoCliente<1 || opcionTipoCliente>2);
+            } catch(NumberFormatException nfex){
+                JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                            + nfex.getMessage(), "REGISTRAR PROYECTO: tipo de cliente", JOptionPane.ERROR_MESSAGE);
+                return datos;
+            }
+
+                //Validación por obligatoriedad
+            do{
+                nombreCliente = JOptionPane.showInputDialog("Nombre del cliente, obligatorio");
+                if(nombreCliente.isEmpty() || nombreCliente.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: nombre cliente", JOptionPane.ERROR_MESSAGE);
+                }
+            } while(nombreCliente.isEmpty() || nombreCliente.isBlank());
+
+                //Validación por obligatoriedad
+            do{
+                nombreCiudad = JOptionPane.showInputDialog("Ciudad del cliente, obligatorio");
+                if(nombreCiudad.isEmpty() || nombreCiudad.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: ciudad cliente", JOptionPane.ERROR_MESSAGE);
+                }
+            } while(nombreCiudad.isEmpty() || nombreCiudad.isBlank());
+
+            if(opcionTipoCliente==1){
+                //Cliente Empresa: obtener los datos de su contacto
+                String nombreContacto;
+                String cargoContacto;
+                String telefonoContacto;
+                String correoContacto;
+
+                    //Validación por obligatoriedad
+                do{
+                    nombreContacto = JOptionPane.showInputDialog("Nombre completo del contacto de la empresa, obligatorio");
+                    if(nombreContacto.isEmpty() || nombreContacto.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: nombre contacto", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(nombreContacto.isEmpty() || nombreContacto.isBlank());
+
+                    //Validación por obligatoriedad
+                do{
+                    cargoContacto = JOptionPane.showInputDialog("Cargo del contacto de la empresa, obligatorio");
+                    if(cargoContacto.isEmpty() || cargoContacto.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: cargo contacto", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(cargoContacto.isEmpty() || cargoContacto.isBlank());
+
+                    //Validación por obligatoriedad
+                do{
+                    telefonoContacto = JOptionPane.showInputDialog("Número de teléfono del contacto de la empresa, obligatorio");
+                    if(telefonoContacto.isEmpty() || telefonoContacto.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: teléfono contacto", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(telefonoContacto.isEmpty() || telefonoContacto.isBlank());
+
+                    //Validación por obligatoriedad
+                do{
+                    correoContacto = JOptionPane.showInputDialog("Correo electrónico del contacto de la empresa, obligatorio");
+                    if(correoContacto.isEmpty() || correoContacto.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: correo contacto", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(correoContacto.isEmpty() || correoContacto.isBlank());
+
+                Contacto objContacto;
+                objContacto = new Contacto(nombreContacto,cargoContacto,telefonoContacto,correoContacto);
+                objCliente = new Empresa(numeroIdeCliente,nombreCliente,nombreCiudad,objContacto);
+            } else{
+                //Cliente PersonaNatural: obtener sus datos propios
+                String telefonoCliente;
+                String correoCliente;
+
+                    //Validación por obligatoriedad
+                do{
+                    telefonoCliente = JOptionPane.showInputDialog("Número de teléfono del cliente, obligatorio");
+                    if(telefonoCliente.isEmpty() || telefonoCliente.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: teléfono cliente", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(telefonoCliente.isEmpty() || telefonoCliente.isBlank());
+
+                    //Validación por obligatoriedad
+                do{
+                    correoCliente = JOptionPane.showInputDialog("Correo electrónico del cliente, obligatorio");
+                    if(correoCliente.isEmpty() || correoCliente.isBlank()){
+                        JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: correo cliente", JOptionPane.ERROR_MESSAGE);
+                    }
+                } while(correoCliente.isEmpty() || correoCliente.isBlank());
+
+                objCliente = new PersonaNatural(numeroIdeCliente,nombreCliente,nombreCiudad,telefonoCliente,correoCliente);
+            }
+        }
+
+        //----- 1b. Obtener el gerente del proyecto
+
+            //Validación por obligatoriedad
+        do{
+            numeroIdeGerente = JOptionPane.showInputDialog("Número de identificación del gerente, obligatorio");
+            if(numeroIdeGerente.isEmpty() || numeroIdeGerente.isBlank()){
+                JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: número identificación gerente", JOptionPane.ERROR_MESSAGE);
+            }
+        } while(numeroIdeGerente.isEmpty() || numeroIdeGerente.isBlank());
+
+            //Buscar el empleado en los gerentes y equipos de los proyectos registrados para no solicitar nuevamente sus datos
+        for(Proyecto objeto : datos){
+            if(objeto.getSuGerente().getNumeroIdentificacion().equals(numeroIdeGerente)){
+                objGerente = objeto.getSuGerente();
+            }
+            for(Empleado integrante : objeto.getSuEquipo()){
+                if(integrante.getNumeroIdentificacion().equals(numeroIdeGerente)){
+                    objGerente = integrante;
+                }
+            }
+        }
+
+        if(objGerente != null){
+            JOptionPane.showMessageDialog(null, "El empleado ya se encuentra registrado, se asigna como gerente del proyecto.\n" + objGerente.toString(),
+                                        "REGISTRAR PROYECTO: gerente", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+            String nombreGerente;
+            String tituloGerente;
+            byte aniosGerente;
+
+                //Validación por obligatoriedad
+            do{
+                nombreGerente = JOptionPane.showInputDialog("Nombre completo del gerente, obligatorio");
+                if(nombreGerente.isEmpty() || nombreGerente.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: nombre gerente", JOptionPane.ERROR_MESSAGE);
+                }
+            } while(nombreGerente.isEmpty() || nombreGerente.isBlank());
+
+                //Validación por obligatoriedad
+            do{
+                tituloGerente = JOptionPane.showInputDialog("Título profesional del gerente, obligatorio");
+                if(tituloGerente.isEmpty() || tituloGerente.isBlank()){
+                    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n",  "REGISTRAR PROYECTO: título profesional gerente", JOptionPane.ERROR_MESSAGE);
+                }
+            } while(tituloGerente.isEmpty() || tituloGerente.isBlank());
+
+                //Gestión de excepción de formato numérico y Validación para restricción de dominio
+            try{
+                do{
+                    aniosGerente = Byte.parseByte(JOptionPane.showInputDialog("Anios de experiencia del gerente, valor entero desde 0"));
+                    if(aniosGerente<0){JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por valor incorrecto.\n",
+                                                                "REGISTRAR PROYECTO: anios de experiencia gerente", JOptionPane.ERROR_MESSAGE);}
+                } while(aniosGerente<0);
+            } catch(NumberFormatException nfex){
+                JOptionPane.showMessageDialog(null, "Operación fallida: entrada inválida por formato incorrecto.\n"
+                                            + nfex.getMessage(), "REGISTRAR PROYECTO: anios de experiencia gerente", JOptionPane.ERROR_MESSAGE);
+                return datos;
+            }
+
+            objGerente = new Empleado(numeroIdeGerente,nombreGerente,tituloGerente,aniosGerente);
+        }
+
+        //----- 2. Crear el objeto Proyecto (sin equipo, estado INICIADO)
+
+        Proyecto objProyecto;
+        objProyecto = new Proyecto(codigo,titulo,fechaInicio,unidadDuracion,duracionEstimada,objCliente,objGerente);
+
+        //----- 3. Almacenar el objeto Proyecto en la colección de proyectos
+
+        boolean registroExitoso = datos.add(objProyecto);
+        if(registroExitoso){
+             JOptionPane.showMessageDialog(null, "Operación exitosa, objeto registrado.", "REGISTRAR PROYECTO", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+             JOptionPane.showMessageDialog(null, "Operación fallida, objeto no registrado.", "REGISTRAR PROYECTO", JOptionPane.ERROR_MESSAGE);
+        }
+
+        //------ 4. Devolver la colección de proyectos
+        return datos;
     }
 
     /**
