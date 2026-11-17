@@ -1,0 +1,2 @@
+- `01_breakpoint_proyecto1.png`: Muestra los atributos de `objProyecto1` (`duracionEstimada`, `suCliente`, `suGerente`, `suEquipo` con 2 empleados y `estado` `"FINALIZADO"`) en la ventana Variables durante el constructor de `UsaProyecto`.
+- `02_breakpoint_agregar_integrante.png`: Muestra el breakpoint en `objProyecto2.agregarIntegrante(objEmpleado3)` y los atributos iniciales de `objProyecto2` en la ventana Variables.
