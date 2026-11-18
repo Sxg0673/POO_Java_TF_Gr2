@@ -1405,8 +1405,6 @@ public class UsaProyecto extends javax.swing.JFrame {
 
         jLabel1.setText("Código del proyecto (ej. 2026-001)");
 
-        jTextFieldCodigo.addActionListener(this::jTextFieldCodigoActionPerformed);
-
         jButtonConsultarProyecto.setText("Consultar proyecto");
         jButtonConsultarProyecto.addActionListener(this::jButtonConsultarProyectoActionPerformed);
 
@@ -1477,8 +1475,6 @@ public class UsaProyecto extends javax.swing.JFrame {
 
         jLabel2.setText("Número de identificación del cliente");
 
-        jTextFieldNumIdeCliente.addActionListener(this::jTextFieldNumIdeClienteActionPerformed);
-
         jButtonConsultarPorCliente.setText("Proyectos del cliente");
         jButtonConsultarPorCliente.addActionListener(this::jButtonConsultarPorClienteActionPerformed);
 
@@ -1488,8 +1484,6 @@ public class UsaProyecto extends javax.swing.JFrame {
         jButtonConsultarPorTipoCliente.addActionListener(this::jButtonConsultarPorTipoClienteActionPerformed);
 
         jLabel3.setText("Número de identificación del gerente");
-
-        jTextFieldNumIdeGerente.addActionListener(this::jTextFieldNumIdeGerenteActionPerformed);
 
         jButtonConsultarPorGerente.setText("Proyectos del gerente");
         jButtonConsultarPorGerente.addActionListener(this::jButtonConsultarPorGerenteActionPerformed);
@@ -1626,18 +1620,6 @@ public class UsaProyecto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldCodigoActionPerformed
-
-    private void jTextFieldNumIdeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumIdeClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNumIdeClienteActionPerformed
-
-    private void jTextFieldNumIdeGerenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumIdeGerenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNumIdeGerenteActionPerformed
-
     private void jButtonRegistrarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarProyectoActionPerformed
         losProyectos = registrarProyecto(losProyectos);
     }//GEN-LAST:event_jButtonRegistrarProyectoActionPerformed
@@ -1660,88 +1642,88 @@ public class UsaProyecto extends javax.swing.JFrame {
 
     private void jButtonConsultarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarProyectoActionPerformed
         String codigoProyecto = jTextFieldCodigo.getText();
-if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTO: código", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(consultarProyectoDadoCodigo(losProyectos, codigoProyecto));
-}
+        if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTO: código", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(consultarProyectoDadoCodigo(losProyectos, codigoProyecto));
+        }
     }//GEN-LAST:event_jButtonConsultarProyectoActionPerformed
 
     private void jButtonConsultarGerenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarGerenteActionPerformed
         String codigoProyecto = jTextFieldCodigo.getText();
-if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR GERENTE: código", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(consultarGerenteProyectoDadoCodigo(losProyectos, codigoProyecto));
-}
+        if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR GERENTE: código", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(consultarGerenteProyectoDadoCodigo(losProyectos, codigoProyecto));
+        }
     }//GEN-LAST:event_jButtonConsultarGerenteActionPerformed
 
     private void jButtonConsultarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarEquipoActionPerformed
         String codigoProyecto = jTextFieldCodigo.getText();
-if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR EQUIPO: código", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(consultarEquipoProyectoDadoCodigo(losProyectos, codigoProyecto));
-}
+        if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR EQUIPO: código", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(consultarEquipoProyectoDadoCodigo(losProyectos, codigoProyecto));
+        }
     }//GEN-LAST:event_jButtonConsultarEquipoActionPerformed
 
     private void jButtonRegistrarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarIntegranteActionPerformed
         String codigoProyecto = jTextFieldCodigo.getText();
-if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "REGISTRAR INTEGRANTE: código", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(registrarIntegranteProyectoDadoCodigo(losProyectos, codigoProyecto));
-}
+        if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "REGISTRAR INTEGRANTE: código", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(registrarIntegranteProyectoDadoCodigo(losProyectos, codigoProyecto));
+        }
     }//GEN-LAST:event_jButtonRegistrarIntegranteActionPerformed
 
     private void jButtonRegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarEquipoActionPerformed
         String codigoProyecto = jTextFieldCodigo.getText();
-if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "REGISTRAR EQUIPO: código", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(registrarEquipoProyectoDadoCodigo(losProyectos, codigoProyecto));
-}
+        if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "REGISTRAR EQUIPO: código", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(registrarEquipoProyectoDadoCodigo(losProyectos, codigoProyecto));
+        }
     }//GEN-LAST:event_jButtonRegistrarEquipoActionPerformed
 
     private void jButtonEliminarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarIntegranteActionPerformed
         String codigoProyecto = jTextFieldCodigo.getText();
-if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "ELIMINAR INTEGRANTE: código", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(eliminarIntegranteProyectoDadoCodigo(losProyectos, codigoProyecto));
-}
+        if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "ELIMINAR INTEGRANTE: código", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(eliminarIntegranteProyectoDadoCodigo(losProyectos, codigoProyecto));
+        }
     }//GEN-LAST:event_jButtonEliminarIntegranteActionPerformed
 
     private void jButtonActualizarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarEstadoActionPerformed
         String codigoProyecto = jTextFieldCodigo.getText();
-if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "ACTUALIZAR ESTADO: código", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(actualizarEstadoProyectoDadoCodigo(losProyectos, codigoProyecto));
-}
+        if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "ACTUALIZAR ESTADO: código", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(actualizarEstadoProyectoDadoCodigo(losProyectos, codigoProyecto));
+        }
     }//GEN-LAST:event_jButtonActualizarEstadoActionPerformed
 
     private void jButtonConsultarPorGerenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarPorGerenteActionPerformed
         String numIDEGerente = jTextFieldNumIdeGerente.getText();
-if(numIDEGerente.isEmpty() || numIDEGerente.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTOS DEL GERENTE: número de identificación", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(consultarProyectosDadoNumIDEGerente(losProyectos, numIDEGerente));
-}
+        if(numIDEGerente.isEmpty() || numIDEGerente.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTOS DEL GERENTE: número de identificación", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(consultarProyectosDadoNumIDEGerente(losProyectos, numIDEGerente));
+        }
     }//GEN-LAST:event_jButtonConsultarPorGerenteActionPerformed
 
     private void jButtonConsultarPorClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarPorClienteActionPerformed
         String numIDECliente = jTextFieldNumIdeCliente.getText();
-if(numIDECliente.isEmpty() || numIDECliente.isBlank()){
-    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTOS DEL CLIENTE: número de identificación", JOptionPane.ERROR_MESSAGE);
-} else{
-    jTextAreaResultados.setText(consultarProyectosDadoNumIDECliente(losProyectos, numIDECliente));
-}
+        if(numIDECliente.isEmpty() || numIDECliente.isBlank()){
+            JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTOS DEL CLIENTE: número de identificación", JOptionPane.ERROR_MESSAGE);
+        } else{
+            jTextAreaResultados.setText(consultarProyectosDadoNumIDECliente(losProyectos, numIDECliente));
+        }
     }//GEN-LAST:event_jButtonConsultarPorClienteActionPerformed
 
     private void jButtonConsultarPorTipoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarPorTipoClienteActionPerformed
         String tipoCliente = (String) jComboBoxTipoCliente.getSelectedItem();
-jTextAreaResultados.setText(consultarProyectosDadoTipoCliente(losProyectos, tipoCliente));
+        jTextAreaResultados.setText(consultarProyectosDadoTipoCliente(losProyectos, tipoCliente));
     }//GEN-LAST:event_jButtonConsultarPorTipoClienteActionPerformed
 
     private void jButtonGenerarArchivoProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarArchivoProyectosActionPerformed
@@ -1750,11 +1732,11 @@ jTextAreaResultados.setText(consultarProyectosDadoTipoCliente(losProyectos, tipo
 
     private void jButtonLeerArchivoProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeerArchivoProyectosActionPerformed
         ArrayList<Proyecto> proyectosLeidos = leerArchivoDeObjetosProyectos();
-//Solo se reemplaza la colección si se leyeron proyectos (si el archivo no existe se conservan los actuales)
-if(!proyectosLeidos.isEmpty()){
-    losProyectos = proyectosLeidos;
-    jTextAreaResultados.setText(consultarTodosProyectos(losProyectos));
-}
+        //Solo se reemplaza la colección si se leyeron proyectos (si el archivo no existe se conservan los actuales)
+        if(!proyectosLeidos.isEmpty()){
+            losProyectos = proyectosLeidos;
+            jTextAreaResultados.setText(consultarTodosProyectos(losProyectos));
+        }
     }//GEN-LAST:event_jButtonLeerArchivoProyectosActionPerformed
 
     private void jButtonGenerarArchivoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarArchivoClientesActionPerformed
@@ -1763,17 +1745,17 @@ if(!proyectosLeidos.isEmpty()){
 
     private void jButtonLeerArchivoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeerArchivoClientesActionPerformed
         losClientes = leerArchivoDeObjetosClientes();
-String resultado = "Clientes leidos del archivo\n";
-for(Cliente objeto : losClientes){
-    resultado += objeto.toString();
-    resultado += "\n";
-}
-jTextAreaResultados.setText(resultado);
+        String resultado = "Clientes leidos del archivo\n";
+        for(Cliente objeto : losClientes){
+            resultado += objeto.toString();
+            resultado += "\n";
+        }
+        jTextAreaResultados.setText(resultado);
     }//GEN-LAST:event_jButtonLeerArchivoClientesActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
         JOptionPane.showMessageDialog(null, "El programa se cerrará. Gracias por utilizar nuestros servicios.");
-System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     /**
