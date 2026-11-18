@@ -24,17 +24,20 @@ public class UsaProyectoTest {
         listaVacia = new ArrayList<>();
         listaConDatos = new ArrayList<>();
 
-        Cliente cliNatural = new PersonaNatural("100", "Laura Díaz", "Cali", "3001234567", "laura@mail.com");
+        Cliente cliNatural = new PersonaNatural("100", "Laura Diaz", "Cali", "3001234567", "laura@mail.com");
         Contacto cont = new Contacto("Mario Ruiz", "CTO", "3112223344", "mario@soft.com");
         Cliente cliEmpresa = new Empresa("900", "SoftCali SAS", "Cali", cont);
 
-        Empleado gerente1 = new Empleado("501", "Roberto Gómez", "Ing. Software", (byte) 10);
+        Empleado gerente1 = new Empleado("501", "Roberto Gomez", "Ing. Software", (byte) 10);
         Empleado gerente2 = new Empleado("502", "Elena Vargas", "Ing. Industrial", (byte) 7);
+        Empleado integrante = new Empleado("601", "Pedro Rios", "Tecnologo en Sistemas", (byte) 2);
 
         Proyecto p1 = new Proyecto("2026-001", "Desarrollo Portal Web Institucional",
                 LocalDate.of(2026, 2, 1), "meses", (byte) 4, cliNatural, gerente1);
         Proyecto p2 = new Proyecto("2026-002", "Implementacion ERP Empresarial Cali",
-                LocalDate.of(2026, 3, 15), "años", (byte) 1, cliEmpresa, gerente2);
+                LocalDate.of(2026, 3, 15), "anios", (byte) 1, cliEmpresa, gerente2);
+        p2.setEstado("EN CURSO");
+        p2.agregarIntegrante(integrante);
 
         listaConDatos.add(p1);
         listaConDatos.add(p2);
@@ -43,31 +46,54 @@ public class UsaProyectoTest {
     @Test
     public void testGenerarCodigoProyectoListaVacia() {
         int anioActual = LocalDate.now().getYear();
-        String esperado = anioActual + "-001";
-        assertEquals(esperado, app.generarCodigoProyecto(listaVacia));
+        assertEquals(anioActual + "-001", app.generarCodigoProyecto(listaVacia));
+    }
+
+    @Test
+    public void testGenerarCodigoProyectoConsecutivo() {
+        int anioActual = LocalDate.now().getYear();
+        ArrayList<Proyecto> lista = new ArrayList<>();
+        Empleado gerente = new Empleado("501", "Roberto Gomez", "Ing. Software", (byte) 10);
+        Cliente cliente = new PersonaNatural("100", "Laura Diaz", "Cali", "3001234567", "laura@mail.com");
+        lista.add(new Proyecto(anioActual + "-001", "Proyecto A", LocalDate.now(), "semanas", (byte) 3, cliente, gerente));
+        assertEquals(anioActual + "-002", app.generarCodigoProyecto(lista));
     }
 
     @Test
     public void testConsultasConListaVacia() {
-        String resTodos = app.consultarTodosProyectos(listaVacia);
-        String resEnCurso = app.consultarProyectosEnCurso(listaVacia);
-        String resPrimero = app.consultarPrimerProyecto(listaVacia);
-        String resUltimo = app.consultarUltimoProyecto(listaVacia);
-
-        assertNotNull(resTodos);
-        assertNotNull(resEnCurso);
-        assertNotNull(resPrimero);
-        assertNotNull(resUltimo);
-        assertFalse(resTodos.contains("2026-"));
-        assertFalse(resEnCurso.contains("2026-"));
+        assertTrue(app.consultarTodosProyectos(listaVacia).contains("No hay proyectos registrados."));
+        assertTrue(app.consultarProyectosEnCurso(listaVacia).contains("No hay proyectos registrados."));
+        assertTrue(app.consultarPrimerProyecto(listaVacia).contains("No hay proyectos registrados."));
+        assertTrue(app.consultarUltimoProyecto(listaVacia).contains("No hay proyectos registrados."));
     }
 
     @Test
-    public void testConsultaConCodigoInexistente() {
-        String resultado = app.consultarProyectoDadoCodigo(listaConDatos, "2026-999");
-        assertNotNull(resultado);
-        assertFalse(resultado.contains("Desarrollo Portal Web Institucional"));
-        assertFalse(resultado.contains("Implementacion ERP Empresarial Cali"));
+    public void testConsultarTodosYEnCurso() {
+        String resTodos = app.consultarTodosProyectos(listaConDatos);
+        assertTrue(resTodos.contains("2026-001"));
+        assertTrue(resTodos.contains("2026-002"));
+
+        String resEnCurso = app.consultarProyectosEnCurso(listaConDatos);
+        assertTrue(resEnCurso.contains("2026-002"));
+        assertFalse(resEnCurso.contains("2026-001"));
+    }
+
+    @Test
+    public void testConsultarPrimerYUltimoProyecto() {
+        assertTrue(app.consultarPrimerProyecto(listaConDatos).contains("2026-001"));
+        assertTrue(app.consultarUltimoProyecto(listaConDatos).contains("2026-002"));
+    }
+
+    @Test
+    public void testConsultaProyectoDadoCodigo() {
+        assertTrue(app.consultarProyectoDadoCodigo(listaConDatos, "2026-001").contains("Desarrollo Portal Web Institucional"));
+        assertTrue(app.consultarProyectoDadoCodigo(listaConDatos, "2026-999").contains("No existe un proyecto con codigo 2026-999."));
+    }
+
+    @Test
+    public void testConsultarGerenteYEquipoDadoCodigo() {
+        assertTrue(app.consultarGerenteProyectoDadoCodigo(listaConDatos, "2026-002").contains("Elena Vargas"));
+        assertTrue(app.consultarEquipoProyectoDadoCodigo(listaConDatos, "2026-002").contains("Pedro Rios"));
     }
 
     @Test
@@ -83,5 +109,15 @@ public class UsaProyectoTest {
         String resTipoEmpresa = app.consultarProyectosDadoTipoCliente(listaConDatos, "Empresa");
         assertTrue(resTipoEmpresa.contains("2026-002"));
         assertFalse(resTipoEmpresa.contains("2026-001"));
+
+        String resTipoPersona = app.consultarProyectosDadoTipoCliente(listaConDatos, "PersonaNatural");
+        assertTrue(resTipoPersona.contains("2026-001"));
+        assertFalse(resTipoPersona.contains("2026-002"));
+    }
+
+    @Test
+    public void testFiltrosSinResultados() {
+        assertTrue(app.consultarProyectosDadoNumIDEGerente(listaConDatos, "999").contains("No existen proyectos con gerente identificado con 999."));
+        assertTrue(app.consultarProyectosDadoNumIDECliente(listaConDatos, "999").contains("No existen proyectos con cliente identificado con 999."));
     }
 }
