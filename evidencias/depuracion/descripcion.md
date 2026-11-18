@@ -1,0 +1,5 @@
+- `01_breakpoint_proyecto1.png`: Muestra los atributos de `objProyecto1` (`duracionEstimada`, `suCliente`, `suGerente`, `suEquipo` con 2 empleados y `estado` `"FINALIZADO"`) en la ventana Variables durante el constructor de `UsaProyecto`.
+- `02_breakpoint_agregar_integrante.png`: Muestra el breakpoint en `objProyecto2.agregarIntegrante(objEmpleado3)` y los atributos iniciales de `objProyecto2` en la ventana Variables.
+- `03_breakpoint_generar_codigo.png`: Muestra el avance paso a paso y las variables locales (`anioActual`, `consecutivo`) dentro de `generarCodigoProyecto` al registrar un proyecto desde la GUI.
+- `04_breakpoint_fecha_finalizacion.png`: Muestra el cálculo paso a paso de la fecha de finalización y sus variables dentro de `determinarFechaFinalizacion`.
+- `05_breakpoint_eliminar_integrante.png`: Muestra la inspección de variables al buscar y remover un empleado dentro de `eliminarIntegrante`.
