@@ -15,3 +15,5 @@
 - `15_leer_archivo_proyectos.png`: Muestra los proyectos cargados desde el archivo guardado al presionar "Leer archivo de proyectos".
 - `16_generar_archivo_clientes.png`: Muestra la confirmación de exportación de los clientes al presionar "Generar archivo de clientes".
 - `17_leer_archivo_clientes.png`: Muestra los clientes cargados desde el archivo guardado al presionar "Leer archivo de clientes".
+- `18_registrar_proyecto.png`: Muestra la consulta del proyecto recién creado (`2026-004`) tras completar el flujo de "Registrar proyecto".
+- `19_registrar_equipo.png`: Muestra el equipo asignado al proyecto `2026-002` tras completar el flujo de "Registrar equipo".
