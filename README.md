@@ -47,9 +47,39 @@ docs/         documentación del proyecto
 
 Los datos se solicitan mediante ventanas de diálogo con validación de cada campo; cualquier operación puede cancelarse sin afectar los datos registrados.
 
+## Cómo usar el aplicativo
+
+La ventana **Gestión de proyectos** tiene cuatro paneles, un área de resultados y el botón Salir. Los resultados de las consultas se muestran en el área de texto inferior.
+
+![Ventana principal](docs/01_ventana_principal.png)
+
+### Proyectos
+Los botones **Registrar proyecto**, **Consultar todos**, **Proyectos en curso**, **Primer proyecto** y **Último proyecto** no necesitan ningún dato previo. Registrar proyecto abre ventanas de diálogo que piden los datos uno a uno.
+
+![Consultar todos](docs/02_consultar_todos.png)
+
+### Operaciones por código de proyecto
+Escribir el código del proyecto en el campo (por ejemplo `2026-001`) y pulsar el botón de la operación: consultar proyecto, gerente o equipo, registrar integrante o equipo, eliminar integrante o actualizar el estado. Si el campo está vacío, el aplicativo muestra un mensaje de error.
+
+![Consultar equipo](docs/03_consultar_equipo.png)
+
+### Consultas por gerente y cliente
+Escribir el número de identificación del gerente o del cliente y pulsar el botón correspondiente. También se pueden consultar los proyectos por tipo de cliente (`Empresa` o `PersonaNatural`) eligiendo la opción en la lista.
+
+![Proyectos por tipo de cliente](docs/04_proyectos_por_tipo_cliente.png)
+
+### Archivos
+Los cuatro botones del panel **Archivos** generan y leen los archivos de objetos de proyectos y de clientes.
+
+### Salir
+El botón **Salir** muestra un mensaje de despedida y cierra el programa.
+
 ## Documentación
 - [Contrato GUI](docs/CONTRATO_GUI.md): componentes, nombres y código de los eventos de la interfaz gráfica.
 - [Roles y forma de trabajo](docs/ROLES.md): reparto de tareas y guía para trabajar con ramas y Pull Requests.
 
 ## Integrantes
 - Santiago Castillo
+- Jacob José Daniells Janna
+- Juan Sebastián Herrera Benavides
+- Juan David Pino López
