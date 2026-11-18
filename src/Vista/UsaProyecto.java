@@ -1317,21 +1317,464 @@ public class UsaProyecto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jButtonRegistrarProyecto = new javax.swing.JButton();
+        jButtonConsultarTodos = new javax.swing.JButton();
+        jButtonConsultarEnCurso = new javax.swing.JButton();
+        jButtonConsultarPrimero = new javax.swing.JButton();
+        jButtonConsultarUltimo = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldCodigo = new javax.swing.JTextField();
+        jButtonConsultarProyecto = new javax.swing.JButton();
+        jButtonConsultarGerente = new javax.swing.JButton();
+        jButtonConsultarEquipo = new javax.swing.JButton();
+        jButtonRegistrarIntegrante = new javax.swing.JButton();
+        jButtonRegistrarEquipo = new javax.swing.JButton();
+        jButtonEliminarIntegrante = new javax.swing.JButton();
+        jButtonActualizarEstado = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldNumIdeCliente = new javax.swing.JTextField();
+        jButtonConsultarPorCliente = new javax.swing.JButton();
+        jComboBoxTipoCliente = new javax.swing.JComboBox<>();
+        jButtonConsultarPorTipoCliente = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldNumIdeGerente = new javax.swing.JTextField();
+        jButtonConsultarPorGerente = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jButtonGenerarArchivoProyectos = new javax.swing.JButton();
+        jButtonLeerArchivoProyectos = new javax.swing.JButton();
+        jButtonGenerarArchivoClientes = new javax.swing.JButton();
+        jButtonLeerArchivoClientes = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaResultados = new javax.swing.JTextArea();
+        jButtonSalir = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gestión de proyectos");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Proyectos"));
+
+        jButtonRegistrarProyecto.setText("Registrar proyecto");
+        jButtonRegistrarProyecto.addActionListener(this::jButtonRegistrarProyectoActionPerformed);
+
+        jButtonConsultarTodos.setText("Consultar todos");
+        jButtonConsultarTodos.addActionListener(this::jButtonConsultarTodosActionPerformed);
+
+        jButtonConsultarEnCurso.setText("Proyectos en curso");
+        jButtonConsultarEnCurso.addActionListener(this::jButtonConsultarEnCursoActionPerformed);
+
+        jButtonConsultarPrimero.setText("Primer proyecto");
+        jButtonConsultarPrimero.addActionListener(this::jButtonConsultarPrimeroActionPerformed);
+
+        jButtonConsultarUltimo.setText("Último proyecto");
+        jButtonConsultarUltimo.addActionListener(this::jButtonConsultarUltimoActionPerformed);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonRegistrarProyecto)
+                    .addComponent(jButtonConsultarTodos)
+                    .addComponent(jButtonConsultarEnCurso)
+                    .addComponent(jButtonConsultarPrimero)
+                    .addComponent(jButtonConsultarUltimo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jButtonRegistrarProyecto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarTodos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarEnCurso)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarPrimero)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarUltimo)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Operaciones por código de proyecto"));
+
+        jLabel1.setText("Código del proyecto (ej. 2026-001)");
+
+        jTextFieldCodigo.addActionListener(this::jTextFieldCodigoActionPerformed);
+
+        jButtonConsultarProyecto.setText("Consultar proyecto");
+        jButtonConsultarProyecto.addActionListener(this::jButtonConsultarProyectoActionPerformed);
+
+        jButtonConsultarGerente.setText("Consultar gerente");
+        jButtonConsultarGerente.addActionListener(this::jButtonConsultarGerenteActionPerformed);
+
+        jButtonConsultarEquipo.setText("Consultar equipo");
+        jButtonConsultarEquipo.addActionListener(this::jButtonConsultarEquipoActionPerformed);
+
+        jButtonRegistrarIntegrante.setText("Registrar integrante");
+        jButtonRegistrarIntegrante.addActionListener(this::jButtonRegistrarIntegranteActionPerformed);
+
+        jButtonRegistrarEquipo.setText("Registrar equipo");
+        jButtonRegistrarEquipo.addActionListener(this::jButtonRegistrarEquipoActionPerformed);
+
+        jButtonEliminarIntegrante.setText("Eliminar integrante");
+        jButtonEliminarIntegrante.addActionListener(this::jButtonEliminarIntegranteActionPerformed);
+
+        jButtonActualizarEstado.setText("Actualizar estado");
+        jButtonActualizarEstado.addActionListener(this::jButtonActualizarEstadoActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldCodigo)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jButtonConsultarProyecto)
+                            .addComponent(jButtonConsultarGerente)
+                            .addComponent(jButtonConsultarEquipo)
+                            .addComponent(jButtonRegistrarIntegrante)
+                            .addComponent(jButtonRegistrarEquipo)
+                            .addComponent(jButtonEliminarIntegrante)
+                            .addComponent(jButtonActualizarEstado))
+                        .addGap(0, 15, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarProyecto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarGerente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarEquipo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonRegistrarIntegrante)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonRegistrarEquipo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEliminarIntegrante)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonActualizarEstado)
+                .addContainerGap(11, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Consultas por gerente y cliente"));
+
+        jLabel2.setText("Número de identificación del cliente");
+
+        jTextFieldNumIdeCliente.addActionListener(this::jTextFieldNumIdeClienteActionPerformed);
+
+        jButtonConsultarPorCliente.setText("Proyectos del cliente");
+        jButtonConsultarPorCliente.addActionListener(this::jButtonConsultarPorClienteActionPerformed);
+
+        jComboBoxTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empresa", "PersonaNatural" }));
+
+        jButtonConsultarPorTipoCliente.setText("Proyectos por tipo de cliente");
+        jButtonConsultarPorTipoCliente.addActionListener(this::jButtonConsultarPorTipoClienteActionPerformed);
+
+        jLabel3.setText("Número de identificación del gerente");
+
+        jTextFieldNumIdeGerente.addActionListener(this::jTextFieldNumIdeGerenteActionPerformed);
+
+        jButtonConsultarPorGerente.setText("Proyectos del gerente");
+        jButtonConsultarPorGerente.addActionListener(this::jButtonConsultarPorGerenteActionPerformed);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonConsultarPorCliente)
+                    .addComponent(jComboBoxTipoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonConsultarPorTipoCliente)
+                    .addComponent(jLabel3)
+                    .addComponent(jButtonConsultarPorGerente)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jTextFieldNumIdeCliente, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextFieldNumIdeGerente, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldNumIdeGerente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarPorGerente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldNumIdeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarPorCliente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxTipoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonConsultarPorTipoCliente)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Archivos"));
+
+        jButtonGenerarArchivoProyectos.setText("Generar archivo de proyectos");
+        jButtonGenerarArchivoProyectos.addActionListener(this::jButtonGenerarArchivoProyectosActionPerformed);
+
+        jButtonLeerArchivoProyectos.setText("Leer archivo de proyectos");
+        jButtonLeerArchivoProyectos.addActionListener(this::jButtonLeerArchivoProyectosActionPerformed);
+
+        jButtonGenerarArchivoClientes.setText("Generar archivo de clientes");
+        jButtonGenerarArchivoClientes.addActionListener(this::jButtonGenerarArchivoClientesActionPerformed);
+
+        jButtonLeerArchivoClientes.setText("Leer archivo de clientes");
+        jButtonLeerArchivoClientes.addActionListener(this::jButtonLeerArchivoClientesActionPerformed);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonGenerarArchivoProyectos)
+                    .addComponent(jButtonLeerArchivoProyectos)
+                    .addComponent(jButtonGenerarArchivoClientes)
+                    .addComponent(jButtonLeerArchivoClientes))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonGenerarArchivoProyectos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLeerArchivoProyectos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonGenerarArchivoClientes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLeerArchivoClientes)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+
+        jTextAreaResultados.setEditable(false);
+        jTextAreaResultados.setColumns(20);
+        jTextAreaResultados.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaResultados);
+
+        jButtonSalir.setText("Salir");
+        jButtonSalir.addActionListener(this::jButtonSalirActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 678, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSalir))
+                        .addGap(0, 169, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSalir)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCodigoActionPerformed
+
+    private void jTextFieldNumIdeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumIdeClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNumIdeClienteActionPerformed
+
+    private void jTextFieldNumIdeGerenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumIdeGerenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNumIdeGerenteActionPerformed
+
+    private void jButtonRegistrarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarProyectoActionPerformed
+        losProyectos = registrarProyecto(losProyectos);
+    }//GEN-LAST:event_jButtonRegistrarProyectoActionPerformed
+
+    private void jButtonConsultarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarTodosActionPerformed
+        jTextAreaResultados.setText(consultarTodosProyectos(losProyectos));
+    }//GEN-LAST:event_jButtonConsultarTodosActionPerformed
+
+    private void jButtonConsultarEnCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarEnCursoActionPerformed
+        jTextAreaResultados.setText(consultarProyectosEnCurso(losProyectos));
+    }//GEN-LAST:event_jButtonConsultarEnCursoActionPerformed
+
+    private void jButtonConsultarPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarPrimeroActionPerformed
+        jTextAreaResultados.setText(consultarPrimerProyecto(losProyectos));
+    }//GEN-LAST:event_jButtonConsultarPrimeroActionPerformed
+
+    private void jButtonConsultarUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarUltimoActionPerformed
+        jTextAreaResultados.setText(consultarUltimoProyecto(losProyectos));
+    }//GEN-LAST:event_jButtonConsultarUltimoActionPerformed
+
+    private void jButtonConsultarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarProyectoActionPerformed
+        String codigoProyecto = jTextFieldCodigo.getText();
+if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTO: código", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(consultarProyectoDadoCodigo(losProyectos, codigoProyecto));
+}
+    }//GEN-LAST:event_jButtonConsultarProyectoActionPerformed
+
+    private void jButtonConsultarGerenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarGerenteActionPerformed
+        String codigoProyecto = jTextFieldCodigo.getText();
+if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR GERENTE: código", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(consultarGerenteProyectoDadoCodigo(losProyectos, codigoProyecto));
+}
+    }//GEN-LAST:event_jButtonConsultarGerenteActionPerformed
+
+    private void jButtonConsultarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarEquipoActionPerformed
+        String codigoProyecto = jTextFieldCodigo.getText();
+if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR EQUIPO: código", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(consultarEquipoProyectoDadoCodigo(losProyectos, codigoProyecto));
+}
+    }//GEN-LAST:event_jButtonConsultarEquipoActionPerformed
+
+    private void jButtonRegistrarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarIntegranteActionPerformed
+        String codigoProyecto = jTextFieldCodigo.getText();
+if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "REGISTRAR INTEGRANTE: código", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(registrarIntegranteProyectoDadoCodigo(losProyectos, codigoProyecto));
+}
+    }//GEN-LAST:event_jButtonRegistrarIntegranteActionPerformed
+
+    private void jButtonRegistrarEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistrarEquipoActionPerformed
+        String codigoProyecto = jTextFieldCodigo.getText();
+if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "REGISTRAR EQUIPO: código", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(registrarEquipoProyectoDadoCodigo(losProyectos, codigoProyecto));
+}
+    }//GEN-LAST:event_jButtonRegistrarEquipoActionPerformed
+
+    private void jButtonEliminarIntegranteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarIntegranteActionPerformed
+        String codigoProyecto = jTextFieldCodigo.getText();
+if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "ELIMINAR INTEGRANTE: código", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(eliminarIntegranteProyectoDadoCodigo(losProyectos, codigoProyecto));
+}
+    }//GEN-LAST:event_jButtonEliminarIntegranteActionPerformed
+
+    private void jButtonActualizarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarEstadoActionPerformed
+        String codigoProyecto = jTextFieldCodigo.getText();
+if(codigoProyecto.isEmpty() || codigoProyecto.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "ACTUALIZAR ESTADO: código", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(actualizarEstadoProyectoDadoCodigo(losProyectos, codigoProyecto));
+}
+    }//GEN-LAST:event_jButtonActualizarEstadoActionPerformed
+
+    private void jButtonConsultarPorGerenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarPorGerenteActionPerformed
+        String numIDEGerente = jTextFieldNumIdeGerente.getText();
+if(numIDEGerente.isEmpty() || numIDEGerente.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTOS DEL GERENTE: número de identificación", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(consultarProyectosDadoNumIDEGerente(losProyectos, numIDEGerente));
+}
+    }//GEN-LAST:event_jButtonConsultarPorGerenteActionPerformed
+
+    private void jButtonConsultarPorClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarPorClienteActionPerformed
+        String numIDECliente = jTextFieldNumIdeCliente.getText();
+if(numIDECliente.isEmpty() || numIDECliente.isBlank()){
+    JOptionPane.showMessageDialog(null, "Entrada inválida: dato está vacío.\n", "CONSULTAR PROYECTOS DEL CLIENTE: número de identificación", JOptionPane.ERROR_MESSAGE);
+} else{
+    jTextAreaResultados.setText(consultarProyectosDadoNumIDECliente(losProyectos, numIDECliente));
+}
+    }//GEN-LAST:event_jButtonConsultarPorClienteActionPerformed
+
+    private void jButtonConsultarPorTipoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarPorTipoClienteActionPerformed
+        String tipoCliente = (String) jComboBoxTipoCliente.getSelectedItem();
+jTextAreaResultados.setText(consultarProyectosDadoTipoCliente(losProyectos, tipoCliente));
+    }//GEN-LAST:event_jButtonConsultarPorTipoClienteActionPerformed
+
+    private void jButtonGenerarArchivoProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarArchivoProyectosActionPerformed
+        generarArchivoDeObjetosProyectos(losProyectos);
+    }//GEN-LAST:event_jButtonGenerarArchivoProyectosActionPerformed
+
+    private void jButtonLeerArchivoProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeerArchivoProyectosActionPerformed
+        ArrayList<Proyecto> proyectosLeidos = leerArchivoDeObjetosProyectos();
+//Solo se reemplaza la colección si se leyeron proyectos (si el archivo no existe se conservan los actuales)
+if(!proyectosLeidos.isEmpty()){
+    losProyectos = proyectosLeidos;
+    jTextAreaResultados.setText(consultarTodosProyectos(losProyectos));
+}
+    }//GEN-LAST:event_jButtonLeerArchivoProyectosActionPerformed
+
+    private void jButtonGenerarArchivoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerarArchivoClientesActionPerformed
+        generarArchivoDeObjetosClientes(losProyectos);
+    }//GEN-LAST:event_jButtonGenerarArchivoClientesActionPerformed
+
+    private void jButtonLeerArchivoClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeerArchivoClientesActionPerformed
+        losClientes = leerArchivoDeObjetosClientes();
+String resultado = "Clientes leidos del archivo\n";
+for(Cliente objeto : losClientes){
+    resultado += objeto.toString();
+    resultado += "\n";
+}
+jTextAreaResultados.setText(resultado);
+    }//GEN-LAST:event_jButtonLeerArchivoClientesActionPerformed
+
+    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        JOptionPane.showMessageDialog(null, "El programa se cerrará. Gracias por utilizar nuestros servicios.");
+System.exit(0);
+    }//GEN-LAST:event_jButtonSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1359,5 +1802,38 @@ public class UsaProyecto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonActualizarEstado;
+    private javax.swing.JButton jButtonConsultarEnCurso;
+    private javax.swing.JButton jButtonConsultarEquipo;
+    private javax.swing.JButton jButtonConsultarGerente;
+    private javax.swing.JButton jButtonConsultarPorCliente;
+    private javax.swing.JButton jButtonConsultarPorGerente;
+    private javax.swing.JButton jButtonConsultarPorTipoCliente;
+    private javax.swing.JButton jButtonConsultarPrimero;
+    private javax.swing.JButton jButtonConsultarProyecto;
+    private javax.swing.JButton jButtonConsultarTodos;
+    private javax.swing.JButton jButtonConsultarUltimo;
+    private javax.swing.JButton jButtonEliminarIntegrante;
+    private javax.swing.JButton jButtonGenerarArchivoClientes;
+    private javax.swing.JButton jButtonGenerarArchivoProyectos;
+    private javax.swing.JButton jButtonLeerArchivoClientes;
+    private javax.swing.JButton jButtonLeerArchivoProyectos;
+    private javax.swing.JButton jButtonRegistrarEquipo;
+    private javax.swing.JButton jButtonRegistrarIntegrante;
+    private javax.swing.JButton jButtonRegistrarProyecto;
+    private javax.swing.JButton jButtonSalir;
+    private javax.swing.JComboBox<String> jComboBoxTipoCliente;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaResultados;
+    private javax.swing.JTextField jTextFieldCodigo;
+    private javax.swing.JTextField jTextFieldNumIdeCliente;
+    private javax.swing.JTextField jTextFieldNumIdeGerente;
     // End of variables declaration//GEN-END:variables
 }
