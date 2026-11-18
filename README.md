@@ -51,22 +51,22 @@ Los datos se solicitan mediante ventanas de diálogo con validación de cada cam
 
 La ventana **Gestión de proyectos** tiene cuatro paneles, un área de resultados y el botón Salir. Los resultados de las consultas se muestran en el área de texto inferior.
 
-![Ventana principal](docs/01_ventana_principal.png)
+![Ventana principal](docs/01_ventana_principal.jpeg)
 
 ### Proyectos
 Los botones **Registrar proyecto**, **Consultar todos**, **Proyectos en curso**, **Primer proyecto** y **Último proyecto** no necesitan ningún dato previo. Registrar proyecto abre ventanas de diálogo que piden los datos uno a uno.
 
-![Consultar todos](docs/02_consultar_todos.png)
+![Consultar todos](docs/02_consultar_todos.jpeg)
 
 ### Operaciones por código de proyecto
 Escribir el código del proyecto en el campo (por ejemplo `2026-001`) y pulsar el botón de la operación: consultar proyecto, gerente o equipo, registrar integrante o equipo, eliminar integrante o actualizar el estado. Si el campo está vacío, el aplicativo muestra un mensaje de error.
 
-![Consultar equipo](docs/03_consultar_equipo.png)
+![Consultar equipo](docs/03_consultar_equipo.jpeg)
 
 ### Consultas por gerente y cliente
 Escribir el número de identificación del gerente o del cliente y pulsar el botón correspondiente. También se pueden consultar los proyectos por tipo de cliente (`Empresa` o `PersonaNatural`) eligiendo la opción en la lista.
 
-![Proyectos por tipo de cliente](docs/04_proyectos_por_tipo_cliente.png)
+![Proyectos por tipo de cliente](docs/04_proyectos_por_tipo_cliente.jpg)
 
 ### Archivos
 Los cuatro botones del panel **Archivos** generan y leen los archivos de objetos de proyectos y de clientes.
