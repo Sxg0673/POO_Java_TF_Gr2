@@ -21,8 +21,9 @@ Al iniciar, el aplicativo carga 4 proyectos de prueba para poder realizar consul
 src/
 ├── Modelo/   clases del dominio
 └── Vista/    interfaz gráfica y funcionalidades del aplicativo
-test/         pruebas unitarias
+test/         pruebas unitarias (JUnit 4)
 docs/         documentación del proyecto
+evidencias/   capturas de pruebas, depuración y versionamiento
 ```
 
 ### Paquete Modelo
