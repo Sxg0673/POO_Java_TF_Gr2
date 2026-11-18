@@ -111,9 +111,10 @@ Para la siguiente tarea, vuelve al paso 3.1.
 Todas las evidencias se guardan **dentro del repositorio**, en la carpeta `evidencias/` (en la raíz del proyecto):
 ```
 evidencias/
-├── versionamiento/   capturas de GitHub (Rol 3)
-├── pruebas/          pruebas unitarias (Rol 3) y pruebas funcionales de la GUI (Rol 2)
-└── depuracion/       capturas de depuración con breakpoints (Rol 2)
+├── versionamiento/      capturas de GitHub (Rol 3)
+├── pruebas_unitarias/   resultados de JUnit en NetBeans (Rol 3)
+├── pruebas/             pruebas funcionales de la GUI (Rol 2)
+└── depuracion/          capturas de depuración con breakpoints (Rol 2)
 ```
 - Capturas en **PNG**, con nombre numerado y descriptivo: `01_prueba_proyecto_ok.png`, `02_breakpoint_generar_codigo.png`.
 - Cada carpeta tiene un archivo `descripcion.md` con **una línea por captura**: nombre del archivo y qué muestra.
@@ -153,12 +154,12 @@ evidencias/
 
 | Tarea | Rama | Cuándo |
 |---|---|---|
-| 1. **Pruebas del Modelo** con **JUnit 5**, en la carpeta `test/` (ver detalle abajo). | `feature/pruebas-unitarias` | Desde ya |
+| 1. **Pruebas del Modelo** con **JUnit 4**, en la carpeta `test/` (ver detalle abajo). | `feature/pruebas-unitarias` | Desde ya |
 | 2. **Pruebas de `UsaProyecto`** (solo métodos que no abren ventanas, ver detalle abajo). | `feature/pruebas-unitarias` | Desde ya |
-| 3. Capturas de NetBeans con **todas las pruebas pasando** (ventana *Test Results* en verde) en `evidencias/pruebas/`. | `feature/pruebas-unitarias` | Al terminar 1 y 2 |
+| 3. Capturas de NetBeans con **todas las pruebas pasando** (ventana *Test Results* en verde) en `evidencias/pruebas_unitarias/`. | `feature/pruebas-unitarias` | Al terminar 1 y 2 |
 | 4. **Evidencias de versionamiento** en `evidencias/versionamiento/`: lista de commits, ramas, Pull Requests (abiertos y cerrados), gráfica de ramas (*Insights → Network*) y aportes por integrante (*Insights → Contributors*). | `feature/evidencias-versionamiento` | Al final, cuando estén fusionados los PR de todos |
 
-**Crear las pruebas en NetBeans:** clic derecho sobre la clase (ej. `Proyecto.java`) → *Tools → Create/Update Tests* → elegir **JUnit 5** → se crea `test/Modelo/ProyectoTest.java`. Ejecutar todas: clic derecho al proyecto → **Test** (Alt+F6). Al crear la primera prueba, NetBeans agrega JUnit al proyecto: ese cambio también se sube.
+**Crear las pruebas en NetBeans:** clic derecho sobre la clase (ej. `Proyecto.java`) → *Tools → Create/Update Tests* → elegir **JUnit 4** → se crea `test/Modelo/ProyectoTest.java`. Ejecutar todas: clic derecho al proyecto → **Test** (Alt+F6). Al crear la primera prueba, NetBeans agrega JUnit al proyecto: ese cambio también se sube.
 
 **Qué probar como mínimo:**
 - `Proyecto`: estado inicial `INICIADO` con ambos constructores; equipo vacío con el constructor sin equipo; `determinarFechaFinalizacion` con `semanas`, `meses` y `anios`; `agregarIntegrante`; `eliminarIntegrante` cuando el integrante existe (lo devuelve y el equipo disminuye) y cuando no existe (devuelve `null`).
