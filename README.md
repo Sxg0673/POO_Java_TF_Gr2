@@ -67,7 +67,7 @@ Escribir el código del proyecto en el campo (por ejemplo `2026-001`) y pulsar e
 ### Consultas por gerente y cliente
 Escribir el número de identificación del gerente o del cliente y pulsar el botón correspondiente. También se pueden consultar los proyectos por tipo de cliente (`Empresa` o `PersonaNatural`) eligiendo la opción en la lista.
 
-![Proyectos por tipo de cliente](docs/04_proyectos_por_tipo_cliente.jpg)
+![Proyectos por tipo de cliente](docs/04_proyectos_por_tipo_cliente.jpeg)
 
 ### Archivos
 Los cuatro botones del panel **Archivos** generan y leen los archivos de objetos de proyectos y de clientes.
